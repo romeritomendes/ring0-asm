@@ -2,10 +2,14 @@ ORG 0x7C00
 
 BITS 16
 
+jmp 0x0000:start
+
 start:
   xor ax, ax
   mov ds, ax
   mov es, ax
+  mov ss, ax
+  mov sp, 0x7C00
 
   mov si, message
   call print_string
@@ -13,15 +17,17 @@ start:
   jmp $
 
 print_char:
-  mov ah, 0x0E
-  mov bh, 0x00
-  mov bl, 0x07
-  int 0x10
+  mov [es:di], al
+  mov [es:di + 1], 0x0A
+
+  add di, 2
   
   ret
 
 print_string:
-
+  mov ax, 0xB800
+  mov es, ax
+  mov di, 0x0000
 .print_loop:
   lodsb
   cmp al, 0

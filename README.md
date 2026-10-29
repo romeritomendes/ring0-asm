@@ -77,5 +77,9 @@ Assim que o comando `make simu` subir o container, a tela gráfica do QEMU pode 
 
 O `Makefile` monta automaticamente a imagem do disquete (`./bin/diskette`) com a seguinte estrutura de setores:
 
-* **Setor 1 (Offset `0x0000` - 512 bytes):** Contém o código do `boot.asm` finalizado obrigatoriamente com a palavra mágica de boot `0xAA55`.
-* **Setor 2 (Offset `0x0200` - 512 bytes):** Contém os dados adicionais/código extra lidos pela BIOS durante a execução do bootloader.
+## 💾 Layout do Disco e Mapeamento de Memória
+
+| Elemento | Posição no Disco | Endereço na RAM (ES:BX) | Descrição |
+| :--- | :--- | :--- | :--- |
+| **Setor 1 (MBR)** | `0x0000` (Byte 0) | `0x0000:0x7C00` | Código do `boot.asm` (512 bytes) carregado automaticamente pela BIOS. |
+| **Setor 2** | `0x0200` (Byte 512) | `0x0000:0x0500` | Conteúdo do `sector2.txt` lido do disco via `int 0x13` e copiado para a RAM.  |

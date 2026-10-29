@@ -8,6 +8,8 @@ BIN_DIR    = $(PWD)/bin
 SRC        = $(SRC_DIR)/boot.asm
 SECTOR2    = $(SRC_DIR)/sector2.txt
 
+ASM_SRCS = $(wildcard $(SRC_DIR)/*.asm)
+
 # Created Artefacts
 BIN        = $(BIN_DIR)/boot
 FLOPPY     = $(BIN_DIR)/diskette
@@ -15,7 +17,7 @@ DOCKER_STAMP = $(BIN_DIR)/.docker-built
 
 all: build docker-build
 
-$(BIN): $(SRC)
+$(BIN): $(ASM_SRCS)
 	@mkdir -p $(BIN_DIR)
 	@echo "===> [BUILD] Compiling Assembly using NASM..."
 	nasm $(SRC) -o $(BIN)
@@ -45,7 +47,7 @@ $(DOCKER_STAMP): Dockerfile entrypoint.sh
 
 docker-build: $(DOCKER_STAMP)
 
-simu: docker-build build
+simu: build docker-build
 	docker run --rm -it \
 		-p 5900:5900 \
 		-p 6080:6080 \

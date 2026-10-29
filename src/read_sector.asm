@@ -1,13 +1,15 @@
 [BITS 16]
 
 read_sector:
+  pusha           ; Save registers
+
   mov ah, 0x02    ; Function: Read Sector(s)
-
 ; TODO: Need to be dinamic
-  mov al, 0x01    ; Number of sectors
+  ; mov al, 0x01    ; Number of sectors
   int 0x13
+  jc .fail        ; If Carry flag show error message
 
-  jc .fail
+  popa            ; Restore registers
   ret
 
 .fail:

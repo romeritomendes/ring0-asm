@@ -5,6 +5,7 @@
 jmp 0x0000:start
 
 start:
+  mov [BOOT_DRIVE], bl  ; Save BOOT original Drive
   xor ax, ax
   mov ds, ax
   mov es, ax
@@ -24,6 +25,7 @@ start:
 
   jmp $
 
+BOOT_DRIVE:  db 0
 message db "Reading sector 2...", 0
 
 %include "src/vga_print.asm"

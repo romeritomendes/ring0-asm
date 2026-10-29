@@ -17,12 +17,7 @@ start:
   mov ax, 0x0000
   mov es, ax      ; Memory segment 0x0000
   mov bx, 0x0500  ; Memory offset 0x0500
-
-  mov dl, 0x00    ; Drive 0 (Floppy) - Drive 1 (Hard disk)
-  mov ch, 0x00    ; Cylinder 0
-  mov cl, 0x02    ; Sector 2
-  mov dh, 0x00    ; Head 0
-  call read_sector
+  call read_from_floppy
 
   mov si, 0x0500
   call print_string
@@ -32,7 +27,8 @@ start:
 message db "Reading sector 2...", 0
 
 %include "src/vga_print.asm"
-%include "src/floppy_read.asm"
+%include "src/read_sector.asm"
+%include "src/read_disk.asm"
 
 times 510 - ($ - $$) db 0x00
 

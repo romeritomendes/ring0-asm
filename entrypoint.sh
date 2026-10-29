@@ -18,6 +18,6 @@ echo "===> QMEU starting in VNC mode (Port 5900)..."
 echo "===> Loading image from $BOOT_IMG"
 
 exec qemu-system-i386 \
-  -drive format=raw,file="$BOOT_IMG" \
+  -drive format=raw,file="$BOOT_IMG",if=floppy,index=0 \
   -vnc 0.0.0.0:0 \
   -m 64M

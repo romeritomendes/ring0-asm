@@ -52,7 +52,7 @@ ring0-asm/
 │   ├── sector2.txt        # Conteúdo/Código do Setor 2 do disco
 │   ├── read_sector.asm    # Rotina de leitura de setores via BIOS (int 0x13)
 │   ├── read_disk.asm      # Rotina de seleção de unidade de disco
-│   └── vga_print.asm      # Rotina de impressão de texto em modo teletipo (int 0x10)
+│   └── vga_print.asm      # Impressão direta no buffer de memória VGA (0xB800)
 ├── bin/                   # Artefatos gerados pelo build (ignorado no Git)
 │   ├── boot               # Binário do setor de boot (512 bytes)
 │   └── diskette           # Imagem bruta de disquete 1.44MB com Setor 1 + Setor 2
@@ -83,3 +83,4 @@ O `Makefile` monta automaticamente a imagem do disquete (`./bin/diskette`) com a
 | :--- | :--- | :--- | :--- |
 | **Setor 1 (MBR)** | `0x0000` (Byte 0) | `0x0000:0x7C00` | Código do `boot.asm` (512 bytes) carregado automaticamente pela BIOS. |
 | **Setor 2** | `0x0200` (Byte 512) | `0x0000:0x0500` | Conteúdo do `sector2.txt` lido do disco via `int 0x13` e copiado para a RAM.  |
+| VGA Text Buffer | N/A | `0xB800:0x0000` | Memória de vídeo texto (80x25). O `vga_print.asm` escreve diretamente aqui com atributo 0x0A (Verde). |
